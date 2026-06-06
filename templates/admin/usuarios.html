@@ -1,0 +1,72 @@
+{% extends "base.html" %} {% block title %}Gerenciar usuários{% endblock %} {%
+block content %}
+<div class="card card-wide">
+  <div
+    style="
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    "
+  >
+    <div>
+      <h1>Gerenciar usuários</h1>
+      <p class="subtitle">CRUD completo + bloqueio manual de contas (RF04)</p>
+    </div>
+    <a href="/admin/usuarios/novo" class="btn btn-primary btn-sm"
+      >+ Novo usuário</a
+    >
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>E-mail</th>
+        <th>Perfil</th>
+        <th>Status</th>
+        <th>Criado em</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in usuarios %}
+      <tr>
+        <td>{{ u.nome }}</td>
+        <td>{{ u.email }}</td>
+        <td><span class="tag tag-blue">{{ u.perfil }}</span></td>
+        <td>
+          {% if u.eh_ativo %}
+          <span class="tag tag-green">ativo</span>
+          {% else %}
+          <span class="tag tag-red">bloqueado</span>
+          {% endif %}
+        </td>
+        <td style="color: #64748b; font-size: 13px">
+          {{ u.criado_em.strftime('%d/%m/%Y') }}
+        </td>
+        <td>
+          {% if u.eh_ativo %}
+          <form
+            method="POST"
+            action="/admin/usuarios/{{ u.id }}/bloquear"
+            style="display: inline"
+          >
+            <button class="btn btn-danger btn-sm">Bloquear</button>
+          </form>
+          {% else %}
+          <form
+            method="POST"
+            action="/admin/usuarios/{{ u.id }}/desbloquear"
+            style="display: inline"
+          >
+            <button class="btn btn-primary btn-sm">Desbloquear</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %} {% block title %}Verificação — Etapa 1{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="progress-wrap">
+    <p class="progress-label">
+      Etapa 1 de 2 — Verificação por código OTP (RF07)
+    </p>
+    <div class="progress-bar">
+      <div class="prog-step done"></div>
+      <div class="prog-step active"></div>
+    </div>
+  </div>
+
+  <h1>Código enviado</h1>
+  <p class="subtitle">
+    Um código de 6 dígitos foi enviado ao seu e-mail. Válido por 10 minutos.
+  </p>
+
+  <form method="POST" action="/recovery/otp" id="otpForm">
+    <label
+      >Código OTP
+      <span style="color: #64748b; font-size: 11px">6 dígitos</span></label
+    >
+    <div class="otp-wrap">
+      {% for i in range(6) %}
+      <input
+        type="text"
+        name="digito"
+        maxlength="1"
+        pattern="[0-9]"
+        inputmode="numeric"
+        class="otp-input"
+        autocomplete="off"
+      />
+      {% endfor %}
+    </div>
+    <input type="hidden" name="otp_code" id="otp_code" />
+    <p class="hint">Máx. 3 tentativas → bloqueio automático (RF11)</p>
+    <br />
+    <button type="submit" class="btn btn-primary">Verificar código</button>
+    <a href="/recovery/" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %} {% block scripts %}
+<script>
+  const inputs = document.querySelectorAll(".otp-input");
+
+  inputs.forEach((inp, idx) => {
+    inp.addEventListener("input", () => {
+      inp.value = inp.value.replace(/\D/g, "");
+      if (inp.value && idx < inputs.length - 1) inputs[idx + 1].focus();
+      syncHidden();
+    });
+    inp.addEventListener("keydown", (e) => {
+      if (e.key === "Backspace" && !inp.value && idx > 0)
+        inputs[idx - 1].focus();
+    });
+  });
+
+  function syncHidden() {
+    document.getElementById("otp_code").value = [...inputs]
+      .map((i) => i.value)
+      .join("");
+  }
+
+  document.getElementById("otpForm").addEventListener("submit", syncHidden);
+  inputs[0].focus();
+</script>
+{% endblock %}

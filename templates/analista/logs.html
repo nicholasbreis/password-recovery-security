@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Logs de auditoria{% endblock %}
+
+{% block content %}
+<div class="card card-wide">
+  <h1>Logs de auditoria</h1>
+  <p class="subtitle">Filtros por usuário, data, tipo de evento e fluxo (RF22)</p>
+
+  <div class="metrics">
+    <div class="metric"><div class="val">{{ metricas.total }}</div><div class="lbl">Total de eventos</div></div>
+    <div class="metric"><div class="val" style="color:#ef4444">{{ metricas.bloqueios }}</div><div class="lbl">Contas bloqueadas</div></div>
+    <div class="metric"><div class="val" style="color:#22c55e">{{ metricas.resets_ok }}</div><div class="lbl">Resets concluídos</div></div>
+    <div class="metric"><div class="val" style="color:#f59e0b">{{ metricas.otp_fail }}</div><div class="lbl">Falhas de OTP</div></div>
+  </div>
+
+  <form method="GET" action="/analista/logs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+    <select name="fluxo" style="flex:1;min-width:140px;padding:8px;border:1px solid #d1d5db;border-radius:6px;font-size:14px">
+      <option value="">Todos os fluxos</option>
+      <option value="proposto" {% if request.args.get('fluxo')=='proposto' %}selected{% endif %}>Proposto</option>
+      <option value="link_only" {% if request.args.get('fluxo')=='link_only' %}selected{% endif %}>Link isolado</option>
+      <option value="otp_only" {% if request.args.get('fluxo')=='otp_only' %}selected{% endif %}>OTP isolado</option>
+      <option value="pergunta_only" {% if request.args.get('fluxo')=='pergunta_only' %}selected{% endif %}>Pergunta isolada</option>
+    </select>
+    <select name="evento" style="flex:1;min-width:160px;padding:8px;border:1px solid #d1d5db;border-radius:6px;font-size:14px">
+      <option value="">Todos os eventos</option>
+      <option value="login_ok">login_ok</option>
+      <option value="login_fail">login_fail</option>
+      <option value="otp_ok">otp_ok</option>
+      <option value="otp_fail">otp_fail</option>
+      <option value="pergunta_ok">pergunta_ok</option>
+      <option value="pergunta_fail">pergunta_fail</option>
+      <option value="reset_ok">reset_ok</option>
+      <option value="conta_bloqueada">conta_bloqueada</option>
+    </select>
+    <button type="submit" class="btn btn-primary btn-sm" style="padding:8px 16px">Filtrar</button>
+    <a href="/analista/logs/exportar" class="btn btn-secondary btn-sm" style="padding:8px 16px">Exportar CSV</a>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Data/hora</th>
+        <th>Usuário ID</th>
+        <th>Fluxo</th>
+        <th>Evento</th>
+        <th>IP</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in registros %}
+      <tr>
+        <td style="font-size:13px;color:#64748b">{{ r.criado_em.strftime('%d/%m %H:%M:%S') }}</td>
+        <td>{{ r.user_id or '—' }}</td>
+        <td>
+          {% if r.tipo_fluxo == 'proposto' %}
+            <span class="tag tag-blue">proposto</span>
+          {% elif r.tipo_fluxo %}
+            <span class="tag tag-gray">{{ r.tipo_fluxo }}</span>
+          {% else %}—{% endif %}
+        </td>
+        <td>
+          {% if 'ok' in r.tipo_evento %}
+            <span class="tag tag-green">{{ r.tipo_evento }}</span>
+          {% elif 'fail' in r.tipo_evento or 'bloqueado' in r.tipo_evento %}
+            <span class="tag tag-red">{{ r.tipo_evento }}</span>
+          {% else %}
+            <span class="tag tag-gray">{{ r.tipo_evento }}</span>
+          {% endif %}
+        </td>
+        <td style="font-size:13px;color:#64748b">{{ r.endereco_ip or '—' }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" style="text-align:center;color:#64748b;padding:24px">Nenhum evento encontrado.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %} {% block title %}Cadastro{% endblock %} {% block
+content %}
+<div class="card">
+  <h1>Criar conta</h1>
+  <p class="subtitle">Preencha os dados abaixo</p>
+
+  <form method="POST" action="/register">
+    <div class="form-group">
+      <label for="nome">Nome completo</label>
+      <input
+        type="text"
+        id="nome"
+        name="nome"
+        required
+        autofocus
+        placeholder="João Silva"
+      />
+    </div>
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+        placeholder="seu@email.com"
+      />
+    </div>
+    <div class="form-group">
+      <label for="senha">Senha</label>
+      <input
+        type="password"
+        id="senha"
+        name="senha"
+        required
+        placeholder="Mínimo 8 caracteres"
+      />
+    </div>
+    <div class="form-group">
+      <label for="confirmar_senha">Confirmar senha</label>
+      <input
+        type="password"
+        id="confirmar_senha"
+        name="confirmar_senha"
+        required
+        placeholder="Repita a senha"
+      />
+    </div>
+    <p class="hint">
+      Próximo passo: cadastrar mínimo 3 perguntas confiáveis (RF12)
+    </p>
+    <br />
+    <button type="submit" class="btn btn-primary">Criar conta</button>
+    <a href="/login" class="btn btn-secondary">Já tem conta? Entrar</a>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %} {% block title %}Perguntas confiáveis{% endblock %} {%
+block content %}
+<div class="card">
+  <h1>Perguntas confiáveis</h1>
+  <p class="subtitle">
+    Mínimo de 3 perguntas necessárias para ativar a recuperação de conta (RF12)
+  </p>
+
+  {% if perguntas_atuais %}
+  <p style="font-size: 13px; font-weight: 500; margin-bottom: 8px">
+    Perguntas já cadastradas:
+  </p>
+  {% for pq in perguntas_atuais %}
+  <div
+    style="
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      font-size: 13px;
+    "
+  >
+    ✅ {{ pq.texto_pergunta }}
+  </div>
+  {% endfor %}
+  <hr class="divider" />
+  {% endif %}
+
+  <form method="POST" action="/perguntas">
+    {% for i in range(1, 4) %}
+    <div
+      style="
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 14px;
+        margin-bottom: 12px;
+      "
+    >
+      <p
+        style="
+          font-size: 12px;
+          font-weight: 600;
+          color: #64748b;
+          margin-bottom: 8px;
+        "
+      >
+        PERGUNTA {{ i }}
+      </p>
+      <div class="form-group">
+        <label>Texto da pergunta</label>
+        <input
+          type="text"
+          name="texto_pergunta"
+          placeholder="Ex: Qual o apelido do seu avô paterno?"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label>Resposta</label>
+        <textarea
+          name="resposta"
+          placeholder="Mínimo 4 palavras · sem datas · sem apenas números"
+          required
+        ></textarea>
+      </div>
+    </div>
+    {% endfor %}
+
+    <p class="hint">
+      Critérios (RF13, RF14): mínimo 4 palavras · não pode ser só números · não
+      pode ser uma data · não pode ser seu nome ou e-mail
+    </p>
+    <br />
+    <button type="submit" class="btn btn-primary">Salvar perguntas</button>
+    <a href="/" class="btn btn-secondary">Pular por agora</a>
+  </form>
+</div>
+{% endblock %}

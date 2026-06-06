@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block title %}Verifique seu e-mail{% endblock %} {%
+block content %}
+<div class="card text-center">
+  <span class="icon-ok">✅</span>
+  <h1>Identidade confirmada!</h1>
+  <p class="subtitle">
+    Enviamos o link de redefinição para o seu e-mail.<br />O link expira em
+    <strong>5 minutos</strong> e é de uso único (RF10).
+  </p>
+  <hr class="divider" />
+  <p style="font-size: 13px; color: #64748b">
+    Não recebeu? Verifique a pasta de spam ou
+    <a href="/recovery/" class="link">inicie novamente</a>.
+  </p>
+</div>
+{% endblock %}

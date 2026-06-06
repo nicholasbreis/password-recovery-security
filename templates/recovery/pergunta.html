@@ -1,0 +1,53 @@
+{% extends "base.html" %} {% block title %}Verificação — Etapa 2{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="progress-wrap">
+    <p class="progress-label">
+      Etapa 2 de 2 — Verificação por pergunta confiável (RF08)
+    </p>
+    <div class="progress-bar">
+      <div class="prog-step done"></div>
+      <div class="prog-step done"></div>
+    </div>
+  </div>
+
+  <h1>Pergunta de segurança</h1>
+  <p class="subtitle">
+    Responda à pergunta cadastrada para confirmar sua identidade
+  </p>
+
+  <form method="POST" action="/recovery/pergunta">
+    <div class="form-group">
+      <div
+        style="
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 6px;
+          padding: 12px;
+          font-size: 14px;
+          font-weight: 500;
+          margin-bottom: 12px;
+        "
+      >
+        {{ pergunta.texto_pergunta }}
+      </div>
+      <label for="resposta"
+        >Sua resposta
+        <span style="color: #64748b; font-size: 11px">(RF13)</span></label
+      >
+      <textarea
+        id="resposta"
+        name="resposta"
+        required
+        placeholder="Digite sua resposta aqui..."
+      ></textarea>
+    </div>
+    <p class="hint">
+      Máx. 3 tentativas → bloqueio. Pergunta muda a cada sessão (RF15)
+    </p>
+    <br />
+    <button type="submit" class="btn btn-primary">Confirmar resposta</button>
+    <a href="/recovery/" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

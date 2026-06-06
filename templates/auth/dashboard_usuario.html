@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block title %}Painel{% endblock %} {% block content
+%}
+<div class="card">
+  <h1>Olá, {{ current_user.nome }} 👋</h1>
+  <p class="subtitle">
+    Bem-vindo ao sistema de análise de recuperação de senha
+  </p>
+  <hr class="divider" />
+  <p style="font-size: 14px; margin-bottom: 16px">O que deseja fazer?</p>
+  <a href="/perguntas" class="btn btn-secondary" style="margin-bottom: 8px"
+    >⚙️ Gerenciar perguntas confiáveis</a
+  >
+  <a href="/recovery/" class="btn btn-secondary" style="margin-bottom: 8px"
+    >🔑 Testar fluxo de recuperação</a
+  >
+  <a href="/logout" class="btn btn-secondary">↩️ Sair</a>
+</div>
+{% endblock %}

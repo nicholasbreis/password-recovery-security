@@ -9,7 +9,8 @@ mail = Mail()
 
 
 def create_app():
-    app = Flask(__name__)
+    import os
+    app = Flask(__name__, template_folder=os.path.join(os.path.dirname(os.path.dirname(__file__)), "templates"))
 
     app.config["SECRET_KEY"] = "dev-secret-key-troque-em-producao"
     app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:root@db:3306/recuperacao_db"
