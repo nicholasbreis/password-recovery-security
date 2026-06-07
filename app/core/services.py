@@ -52,12 +52,13 @@ class ValidadorPerguntaService:
         if not r:
             return False, "A resposta não pode ser vazia."
 
+        if cls.REGEX_APENAS_NUMEROS.match(r):
+            return False, "A resposta não pode conter apenas números."
+
         palavras = r.split()
         if len(palavras) < 4:
             return False, f"A resposta deve ter no mínimo 4 palavras (atual: {len(palavras)})."
 
-        if cls.REGEX_APENAS_NUMEROS.match(r):
-            return False, "A resposta não pode conter apenas números."
 
         if cls.REGEX_DATA.match(r):
             return False, "A resposta não pode ser uma data isolada."
