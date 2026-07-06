@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Verifique seu e-mail{% endblock %}
+{% block content %}
+<div class="card text-center">
+  <span class="icon-ok">📧</span>
+  <h1>Link enviado!</h1>
+  <p class="subtitle">Verifique seu e-mail e clique no link para redefinir sua senha.<br>Válido por <strong>30 minutos</strong>.</p>
+  <hr class="divider">
+  <p style="font-size:13px;color:#64748b">Usando MailHog? Acesse <a href="http://localhost:8025" class="link" target="_blank">localhost:8025</a></p>
+  <a href="/test/" class="btn btn-secondary mt">Voltar ao painel</a>
+</div>
+{% endblock %}

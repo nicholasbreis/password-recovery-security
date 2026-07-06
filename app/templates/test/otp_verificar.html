@@ -1,0 +1,68 @@
+{% extends "base.html" %} {% block title %}Verificação OTP — Fluxo 2{% endblock
+%} {% block content %}
+<div class="card">
+  <div
+    style="
+      background: #f1f5f9;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 16px;
+    "
+  >
+    Fluxo 2 — OTP isolado (modo de teste)
+  </div>
+  <h1>Código enviado</h1>
+  <p class="subtitle">
+    Digite o código de 6 dígitos enviado ao seu e-mail. Válido por 10 minutos.
+  </p>
+
+  <form method="POST" action="/test/otp/verificar" id="otpForm">
+    <label
+      >Código OTP
+      <span style="color: #64748b; font-size: 11px">6 dígitos</span></label
+    >
+    <div class="otp-wrap">
+      {% for i in range(6) %}
+      <input
+        type="text"
+        name="digito"
+        maxlength="1"
+        pattern="[0-9]"
+        inputmode="numeric"
+        class="otp-input"
+        autocomplete="off"
+      />
+      {% endfor %}
+    </div>
+    <input type="hidden" name="otp_code" id="otp_code" />
+    <p class="hint">Máx. 3 tentativas → bloqueio automático</p>
+    <br />
+    <button type="submit" class="btn btn-primary">Verificar código</button>
+    <a href="/test/" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %} {% block scripts %}
+<script>
+  const inputs = document.querySelectorAll(".otp-input");
+  inputs.forEach((inp, idx) => {
+    inp.addEventListener("input", () => {
+      inp.value = inp.value.replace(/\D/g, "");
+      if (inp.value && idx < inputs.length - 1) inputs[idx + 1].focus();
+      syncHidden();
+    });
+    inp.addEventListener("keydown", (e) => {
+      if (e.key === "Backspace" && !inp.value && idx > 0)
+        inputs[idx - 1].focus();
+    });
+  });
+  function syncHidden() {
+    document.getElementById("otp_code").value = [...inputs]
+      .map((i) => i.value)
+      .join("");
+  }
+  document.getElementById("otpForm").addEventListener("submit", syncHidden);
+  inputs[0].focus();
+</script>
+{% endblock %}

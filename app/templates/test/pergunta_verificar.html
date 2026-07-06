@@ -1,0 +1,50 @@
+{% extends "base.html" %} {% block title %}Pergunta de Segurança — Fluxo 3{%
+endblock %} {% block content %}
+<div class="card">
+  <div
+    style="
+      background: #f1f5f9;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 16px;
+    "
+  >
+    Fluxo 3 — Pergunta de segurança isolada (modo de teste)
+  </div>
+  <h1>Pergunta de segurança</h1>
+  <p class="subtitle">
+    Responda à pergunta cadastrada para confirmar sua identidade
+  </p>
+
+  <form method="POST" action="/test/pergunta/verificar">
+    <div class="form-group">
+      <div
+        style="
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 6px;
+          padding: 12px;
+          font-size: 14px;
+          font-weight: 500;
+          margin-bottom: 12px;
+        "
+      >
+        {{ pergunta.texto_pergunta }}
+      </div>
+      <label for="resposta">Sua resposta</label>
+      <textarea
+        id="resposta"
+        name="resposta"
+        required
+        placeholder="Digite sua resposta..."
+      ></textarea>
+    </div>
+    <p class="hint">Máx. 3 tentativas → bloqueio automático</p>
+    <br />
+    <button type="submit" class="btn btn-primary">Confirmar resposta</button>
+    <a href="/test/" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

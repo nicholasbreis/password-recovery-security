@@ -9,8 +9,7 @@ mail = Mail()
 
 
 def create_app():
-    import os
-    app = Flask(__name__, template_folder=os.path.join(os.path.dirname(os.path.dirname(__file__)), "templates"))
+    app = Flask(__name__)
 
     app.config["SECRET_KEY"] = "dev-secret-key-troque-em-producao"
     app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:root@db:3306/recuperacao_db"
@@ -31,10 +30,12 @@ def create_app():
     from app.recovery.routes import recovery_bp
     from app.admin.routes import admin_bp
     from app.analista.routes import analista_bp
+    from app.test.routes import test_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(recovery_bp, url_prefix="/recovery")
     app.register_blueprint(admin_bp, url_prefix="/admin")
     app.register_blueprint(analista_bp, url_prefix="/analista")
+    app.register_blueprint(test_bp, url_prefix="/test")
 
     return app

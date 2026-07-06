@@ -1,0 +1,67 @@
+{% extends "base.html" %} {% block title %}Painel de Testes{% endblock %} {%
+block content %}
+<div class="card">
+  <h1>Painel de Testes Controlados</h1>
+  <p class="subtitle">
+    Fluxos tradicionais para comparação experimental. Acesso restrito a ambiente
+    de teste.
+  </p>
+
+  <div
+    style="
+      background: #fffbeb;
+      border: 1px solid #f59e0b;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: #92400e;
+    "
+  >
+    ⚠️ Estes fluxos são intencionalmente menos seguros que o fluxo proposto.
+    Destinados exclusivamente a experimentos comparativos.
+  </div>
+
+  <hr class="divider" />
+
+  <a
+    href="/test/link"
+    class="btn btn-secondary"
+    style="margin-bottom: 10px; text-align: left; padding: 14px 16px"
+  >
+    <strong>Fluxo 1 — Link por e-mail isolado</strong><br />
+    <span style="font-size: 12px; color: #64748b"
+      >Envia um link de redefinição diretamente. Validade: 30 minutos. Sem
+      segunda etapa.</span
+    >
+  </a>
+
+  <a
+    href="/test/otp"
+    class="btn btn-secondary"
+    style="margin-bottom: 10px; text-align: left; padding: 14px 16px"
+  >
+    <strong>Fluxo 2 — OTP isolado</strong><br />
+    <span style="font-size: 12px; color: #64748b"
+      >Envia código de 6 dígitos por e-mail. Validade: 10 minutos. Sem segunda
+      etapa.</span
+    >
+  </a>
+
+  <a
+    href="/test/pergunta"
+    class="btn btn-secondary"
+    style="margin-bottom: 10px; text-align: left; padding: 14px 16px"
+  >
+    <strong>Fluxo 3 — Pergunta de segurança isolada</strong><br />
+    <span style="font-size: 12px; color: #64748b"
+      >Valida apenas a pergunta confiável. Sem OTP. Sem e-mail.</span
+    >
+  </a>
+
+  <hr class="divider" />
+  <a href="/recovery/" class="link" style="font-size: 13px"
+    >← Ver fluxo proposto (OTP + Pergunta)</a
+  >
+</div>
+{% endblock %}
