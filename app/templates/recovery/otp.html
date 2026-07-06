@@ -2,9 +2,7 @@
 {% block content %}
 <div class="card">
   <div class="progress-wrap">
-    <p class="progress-label">
-      Etapa 1 de 2 — Verificação por código OTP (RF07)
-    </p>
+    <p class="progress-label">Etapa 1 de 2 — Verificação por código OTP</p>
     <div class="progress-bar">
       <div class="prog-step done"></div>
       <div class="prog-step active"></div>
@@ -35,7 +33,7 @@
       {% endfor %}
     </div>
     <input type="hidden" name="otp_code" id="otp_code" />
-    <p class="hint">Máx. 3 tentativas → bloqueio automático (RF11)</p>
+    <p class="hint">Máx. 3 tentativas → bloqueio automático</p>
     <br />
     <button type="submit" class="btn btn-primary">Verificar código</button>
     <a href="/recovery/" class="btn btn-secondary">Cancelar</a>

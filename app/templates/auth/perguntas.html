@@ -3,7 +3,7 @@ block content %}
 <div class="card">
   <h1>Perguntas confiáveis</h1>
   <p class="subtitle">
-    Mínimo de 3 perguntas necessárias para ativar a recuperação de conta (RF12)
+    Mínimo de 3 perguntas necessárias para ativar a recuperação de conta
   </p>
 
   {% if perguntas_atuais %}
@@ -21,7 +21,7 @@ block content %}
       font-size: 13px;
     "
   >
-    ✅ {{ pq.texto_pergunta }}
+    {{ pq.texto_pergunta }}
   </div>
   {% endfor %}
   <hr class="divider" />
@@ -68,8 +68,8 @@ block content %}
     {% endfor %}
 
     <p class="hint">
-      Critérios (RF13, RF14): mínimo 4 palavras · não pode ser só números · não
-      pode ser uma data · não pode ser seu nome ou e-mail
+      Critérios: mínimo 4 palavras · não pode ser só números · não pode ser uma
+      data · não pode ser seu nome ou e-mail
     </p>
     <br />
     <button type="submit" class="btn btn-primary">Salvar perguntas</button>
