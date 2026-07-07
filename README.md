@@ -1,6 +1,6 @@
 # Password Recovery Security
 
-Análise de segurança em fluxos de recuperação de senha — Trabalho acadêmico da disciplina de Desenvolvimento de Software.
+Análise de segurança em fluxos de recuperação de senha — Trabalho acadêmico.
 
 ## Sobre o projeto
 
