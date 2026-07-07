@@ -1,6 +1,6 @@
 # Password Recovery Security
 
-Análise de segurança em fluxos de recuperação de senha para fins acadẽmicos.
+Análise de segurança em fluxos de recuperação de senha — Trabalho acadêmico da disciplina de Desenvolvimento de Software.
 
 ## Sobre o projeto
 
@@ -8,7 +8,7 @@ Este projeto implementa e compara quatro fluxos de recuperação de senha, inves
 
 | Fluxo | Descrição |
 |-------|-----------|
-| **Proposto** | OTP por e-mail (Etapa 1) + Pergunta confiável (Etapa 2) |
+| **Proposto**  | OTP por e-mail (Etapa 1) + Pergunta confiável (Etapa 2) |
 | Tradicional 1 | Link por e-mail isolado |
 | Tradicional 2 | OTP isolado (sem segunda etapa) |
 | Tradicional 3 | Pergunta de segurança isolada |
@@ -28,6 +28,37 @@ Este projeto implementa e compara quatro fluxos de recuperação de senha, inves
 
 ---
 
+## Estrutura do projeto
+
+```
+password-recovery-security/
+├── app/
+│   ├── __init__.py          # App factory (Flask)
+│   ├── auth/
+│   │   └── routes.py        # Login, registro, cadastro de perguntas
+│   ├── recovery/
+│   │   └── routes.py        # Fluxo proposto (OTP + pergunta confiável)
+│   ├── test/
+│   │   └── routes.py        # Fluxos tradicionais (modo de teste)
+│   ├── admin/
+│   │   └── routes.py        # Painel do administrador
+│   ├── analista/
+│   │   └── routes.py        # Painel de logs e auditoria
+│   └── core/
+│       ├── models.py        # Modelos: Usuario, Recuperacao, PerguntaConfiavel, LogAuditoria
+│       └── services.py      # OTPService, ValidadorPerguntaService, EmailService, AuditoriaService
+├── templates/               # Templates HTML (Jinja2)
+├── docker/
+│   └── init.sql             # Script de criação do banco de dados
+├── tests/
+│   └── test_modulo1.py      # Testes funcionais do Módulo 1 (28 testes)
+├── docker-compose.yml
+├── Dockerfile
+├── requirements.txt
+├── pytest.ini
+└── run.py
+```
+
 ---
 
 ## Como executar
@@ -39,41 +70,64 @@ Instale o [Docker Desktop](https://www.docker.com/products/docker-desktop).
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/SEU_USUARIO/password-recovery-security.git
+git clone https://github.com/nicholasbreis/password-recovery-security.git
 cd password-recovery-security
 ```
 
-### 2. Suba os containers
+### 2. Crie o arquivo `.env`
+
+```bash
+echo "BASE_URL=http://localhost:5000" > .env
+```
+
+### 3. Suba os containers
 
 ```bash
 docker compose up --build
 ```
 
-Na primeira execução o Docker baixa as imagens e configura o banco - aguarde até aparecer:
+Na primeira execução o Docker baixa as imagens e configura o banco — aguarde até aparecer:
 
 ```
 Running on http://0.0.0.0:5000
 ```
 
-### 3. Acesse o sistema
+### 4. Acesse o sistema
 
 | Serviço | URL |
 |---------|-----|
 | Sistema web | http://localhost:5000 |
 | MailHog (e-mails) | http://localhost:8025 |
 
-### 4. Usuário administrador padrão
-
-```
-E-mail: admin@sistema.local
-Senha:  Admin@123
-```
-
 ### 5. Para encerrar
 
 ```bash
 docker compose down
 ```
+
+---
+
+## Credenciais de acesso para avaliação
+
+| Perfil | E-mail | Senha |
+|--------|--------|-------|
+| Administrador | admin@sistema.local | Admin@123 |
+| Analista | analista@sistema.local | Admin@123 |
+| Usuário | cadastrar via /register | — |
+
+---
+
+## Acessando os fluxos
+
+| Fluxo | URL |
+|-------|-----|
+| Fluxo proposto (OTP + Pergunta) | http://localhost:5000/recovery/ |
+| Painel de testes tradicionais | http://localhost:5000/test/ |
+| Fluxo 1 — Link por e-mail isolado | http://localhost:5000/test/link |
+| Fluxo 2 — OTP isolado | http://localhost:5000/test/otp |
+| Fluxo 3 — Pergunta isolada | http://localhost:5000/test/pergunta |
+| Painel do administrador | http://localhost:5000/admin/usuarios |
+| Painel do analista | http://localhost:5000/analista/logs |
 
 ---
 
@@ -134,7 +188,7 @@ As respostas são validadas antes de serem aceitas pelo sistema:
 
 - ✅ Mínimo de 4 palavras
 - ❌ Apenas números
-- ❌ Data isolada (ex: `1990` ou `01/01/1990`)
+- ❌ Data isolada (ex: 1990 ou 01/01/1990)
 - ❌ Igual ao nome do usuário
 - ❌ Igual ao e-mail do usuário
 - ❌ Vazia
@@ -155,17 +209,13 @@ As respostas são validadas antes de serem aceitas pelo sistema:
 
 | Mecanismo | Implementação | Entropia |
 |-----------|---------------|----------|
-| OTP (Etapa 1) | `secrets.randbelow(1_000_000)` com zfill(6) | ~20 bits - compensado pelo bloqueio após 3 tentativas e expiração de 10 min |
-| Token de redefinição | `secrets.token_hex(32)` | 256 bits |
-| Senhas | bcrypt com fator de custo 12 | - |
-| Respostas das perguntas | bcrypt com fator de custo 12 | - |
+| OTP (Etapa 1) | secrets.randbelow(1_000_000) com zfill(6) | ~20 bits — compensado pelo bloqueio após 3 tentativas e expiração de 10 min |
+| Token de redefinição | secrets.token_hex(32) | 256 bits |
+| Senhas | bcrypt com fator de custo 12 | — |
+| Respostas das perguntas | bcrypt com fator de custo 12 | — |
 
 ---
 
 ## Licença
 
-Projeto acadêmico
-
----
-
-*Aluno: Nicholas Barcelos dos Reis · Professor: Frederico Schardong*
+Projeto acadêmico — Disciplina de Projeto Multidisciplinar
