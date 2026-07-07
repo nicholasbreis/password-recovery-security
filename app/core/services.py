@@ -89,8 +89,8 @@ class EmailService:
         mail.send(msg)
 
     @staticmethod
-    def enviar_link_reset(destinatario: str, token: str, base_url: str):
-        link = f"{base_url}/recovery/reset?token={token}"
+    def enviar_link_reset(destinatario: str, token: str, base_url: str, path: str = "/recovery/reset"):
+        link = f"{base_url}{path}?token={token}"
         msg = Message(
             subject="Link de redefinição de senha",
             recipients=[destinatario],

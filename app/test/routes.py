@@ -34,7 +34,7 @@ def link_iniciar():
 
         import os
         base = os.environ.get("BASE_URL", request.host_url.rstrip("/"))
-        EmailService.enviar_link_reset(usuario.email, token, base)
+        EmailService.enviar_link_reset(usuario.email, token, base, path="/test/link/reset")
         AuditoriaService.registrar("otp_enviado", user_id=usuario.id, tipo_fluxo="link_only", ip=ip)
 
         flash("Link enviado para o seu e-mail. Válido por 30 minutos.", "info")
