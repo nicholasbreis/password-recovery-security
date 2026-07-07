@@ -6,6 +6,8 @@ services:
     container_name: recuperacao_web
     ports:
       - "5000:5000"
+    env_file:
+      - .env
     environment:
       - FLASK_ENV=development
       - DATABASE_URL=mysql+pymysql://root:root@db:3306/recuperacao_db

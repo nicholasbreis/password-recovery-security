@@ -1,3 +1,4 @@
+import os
 import random
 from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 from app import db
@@ -147,7 +148,8 @@ def pergunta():
         db.session.commit()
 
         usuario = Usuario.query.get(user_id)
-        EmailService.enviar_link_reset(usuario.email, token, request.host_url.rstrip("/"))
+        base = os.environ.get("BASE_URL", request.host_url.rstrip("/"))
+        EmailService.enviar_link_reset(usuario.email, token, base)
         AuditoriaService.registrar("pergunta_ok", user_id=user_id, tipo_fluxo=FLUXO, ip=ip)
         flash("Identidade confirmada! Verifique seu e-mail para o link de redefinição.", "success")
         return redirect(url_for("recovery.aguardar_reset"))
